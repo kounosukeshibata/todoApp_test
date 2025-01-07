@@ -1,0 +1,148 @@
+$primary-font: Arial, sans-serif;
+
+/* カラーパレット */
+$blue: royalblue;
+$green: mediumseagreen;
+$yellow: lightyellow;
+$red: indianred;
+$gray: gray;
+
+body {
+    font-family: $primary-font;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* コンテナ */
+.div-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* テーブル */
+.div-table {
+    display: table;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+/* テーブルの行 */
+.div-row {
+    display: table-row;
+}
+
+/* 行のテキストセル */
+.div-content {
+    display: table-cell;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    flex: 1;
+    text-align: left;
+    width: 68%;
+}
+
+/* ボタングループセル */
+.div-buttons {
+    display: table-cell;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    text-align: right;
+}
+
+/* 完了ボタン */
+.button-complete {
+    margin-left: 10px;
+    padding: 8px 12px;
+    background-color: $blue;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    @media (max-width: 768px) {
+        margin-left: 2px;
+        padding: 5px 2px;
+    }
+}
+
+/* 更新ボタン */
+.button-update {
+    margin-left: 10px;
+    padding: 8px 12px;
+    background-color: $green;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    &:disabled {
+        background-color: $gray;
+        cursor: not-allowed;
+    }
+    @media (max-width: 768px) {
+        margin-left: 2px;
+        padding: 5px 2px;
+    }
+}
+
+/* 更新テキスト */
+.input-edit {
+    padding: 8px;
+    background-color: $yellow;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+}
+
+/* 削除ボタン */
+.button-delete {
+    margin-left: 10px;
+    padding: 8px 12px;
+    background-color: $red;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    @media (max-width: 768px) {
+        margin-left: 2px;
+        padding: 5px 2px;
+    }
+}
+
+/* 新規追加エリア */
+.div-add {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* 新規追加テキスト */
+.div-add input {
+    flex: 1;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    &:focus {
+        background-color: $yellow;
+    }
+}
+
+/* 新規追加ボタン */
+.div-add button {
+    margin-left: 10px;
+    padding: 8px 12px;
+    background-color: $blue;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
