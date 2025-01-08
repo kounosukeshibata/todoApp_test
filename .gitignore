@@ -1,0 +1,5 @@
+# Ignore build directory
+tmp/restclt-reactts/build/
+
+# Ignore node_modules directory
+tmp/restclt-reactts/node_modules/
