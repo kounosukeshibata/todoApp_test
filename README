@@ -1,1 +1,69 @@
-initial commit
+本アプリケーションをDocker環境上で起動する際の手順
+
+1. Dockerネットワークを作成する
+docker network create net-todo
+
+2. MySQLデータベースのコンテナ起動
+#Dockerfileがあるディレクトに移動
+cd ~/todoApp_test/tmp/mysql-base
+#コンテナイメージをビルド
+docker build --no-cache --tag mysql-base:latest .
+#コンテナイメージを確認する
+docker images | grep mysql-base
+#コンテナを起動
+docker run -d --publish 3306:3306 --name mysql-todo --net net-todo --volume db_todo_mysql:/var/lib/mysql mysql-base
+#動作確認：MySQL Workbenchを使い、以下のSQLコマンドを実行してみる
+SELECT * FROM db_todo.todos;
+
+3. REST APIサービスのコンテナ起動
+#Dockerfileがあるディレクトに移動
+cd ~/todoApp_test/tmp/restapi-spring-boot
+#Dockerデーモンを起動（Dockerデスクトップがある場合はそちらの起動でも良い）
+sudo service docker start
+#コンテナイメージをビルド
+docker build --no-cache --tag api-todo-spring-boot:latest .
+#コンテナイメージを確認する
+docker images | grep api-todo-spring-boot
+#コンテナを起動
+docker run --rm --publish 5000:8080 --name api-local --net net-todo --env DB_HOST=mysql-todo --env DB_PORT=3306 --env DB_NAME=db_todo --env DB_USER=root --env DB_PASSWORD=password api-todo-spring-boot
+#動作確認
+別ターミナルから以下のcurlコマンドで確認。
+curl -s http://localhost:5000/todos/8 | jq '.'
+
+4. RESTクライアントのコンテナ起動
+#Dockerfileがあるディレクトに移動
+cd ~/todoApp_test/tmp/restclt-reactts
+#Dockerデーモンを起動（Dockerデスクトップがある場合はそちらの起動でも良い）
+sudo service docker start
+#コンテナイメージをビルド
+docker build --no-cache --build-arg API_URL=http://localhost:5000 --tag app-todo-reactts:latest .
+#コンテナイメージを確認する
+docker images | grep app-todo-reactts
+#コンテナを起動
+docker run --rm --publish 8000:80 --name app-local --net net-todo app-todo-reactts
+#動作確認
+Webブラウザで確認する
+open -a "Google Chrome" http://localhost:8000
+
+
+
+#前回作成したコンテナがある場合は停止&削除し、コンテナイメージも削除する
+※テンプレート：コンテナの停止や削除、イメージの削除
+docker stop (コンテナ名)
+docker rm (コンテナ名)
+docker rmi (コンテナイメージ名)
+
+①MySQLデータベースコンテナ
+docker stop mysql-todo
+docker rm mysql-todo
+docker rmi mysql-base
+
+②REST APIサービスのコンテナ
+docker stop api-local
+docker rm api-local
+docker rmi api-todo-spring-boot
+
+③RESTクライアントのコンテナ
+docker stop app-local
+docker rm app-local
+docker rmi app-todo-reactts
